@@ -3,20 +3,22 @@ var http = require('http');
 var port1 = 7000;
 var port2 = 7500;
 
-
-function handleRequest1(request, response) {
-  var requestedUrl = request.url;
-
-  response.end('You are a God ' + requestedUrl);
+function handleRequestGood(request, response) {
+  setTimeout(function() {
+    response.end('You are a God');
+  }, 1000);
 }
-function handleRequest2(request, response) {
-  response.end('You are a Loser') + requestedUrl);
-}
-var server = http.createServer(handleRequest);
+  var goodServer = http.createServer(handleRequestGood);
+  goodServer.listen(port1, function() {
+    console.log('Good server is now listening!');
+  });
 
-server.listen(port, function(err) {
-  if (err){
-    return console.log(err);
+  function handleRequestBad(request, response) {
+    response.end('You are a loser');
   }
-  console.log('Server is now listening!')
-});
+
+  var badServer = http.createServer(handleRequestBad);
+
+  badServer.listen(port2, function(){
+    console.log('Bad server is listening')
+  });
